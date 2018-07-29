@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>vue测试</title>
+		<script type="text/javascript" src="js/vue.js"></script>
+		<style>
+			#app{
+				width: 600px;
+				margin: auto;
+			}
+			
+			fieldset{
+				padding: 15px;
+				border: 1px solid orangered;
+			}
+			
+			fieldset div{
+				margin: 10px auto;
+			}
+			
+			fieldset div input{
+				width: 200px;
+				height: 30px;
+				padding-left: 10px;
+			}
+			
+			table{
+				width: 600px;
+				text-align: center;
+				border: 1px solid orangered;
+				margin-top: 25px;
+			}
+			
+			table thead tr td{
+				background: orangered;
+				color: #fff;
+			}
+			
+			table tbody tr{
+				line-height: 30px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="app">
+			<fieldset>
+				<legend>学生录入系统</legend>
+				<div>
+					<span>姓名：</span>
+					<input type="text" placeholder="请输入姓名" v-model="newStudent.name" />
+				</div>
+				<div>
+					<span>年龄：</span>
+					<input type="text" placeholder="请输入年龄" v-model="newStudent.age" />
+				</div>
+				<div>
+					<span>性别：</span>
+					<select v-model="newStudent.sex">
+						<option value="男">男</option>
+						<option value="女">女</option>
+					</select>
+				</div>
+				<div>
+					<span>手机：</span>
+					<input type="text" placeholder="请输入手机" v-model="newStudent.phone" />
+				</div>				
+				<button @click="creatStudent">新增学生</button>
+			</fieldset>
+
+			<table>
+				<thead>
+					<tr>
+						<td>姓名</td>
+						<td>年龄</td>
+						<td>性别</td>
+						<td>手机</td>
+						<td>操作</td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr v-for="(p,index) in persons">
+						<td>{{p.name}}</td>
+						<td>{{p.age}}</td>
+						<td>{{p.sex}}</td>
+						<td>{{p.phone}}</td>
+						<td><button @click="deleteStudent(index)">删除</button></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<script>
+			var app = new Vue({
+				el: '#app',
+				data: {
+					persons: [
+					   {name:'张三',age:18,sex:'男',phone:'189100100'},
+					   {name:'李四',age:19,sex:'男',phone:'189100101'},
+					   {name:'翠花',age:18,sex:'女',phone:'189100102'},
+					   {name:'王五',age:20,sex:'男',phone:'189100104'},
+					],
+					newStudent:{name:'',age:0 ,sex:'男',phone:''}
+				},
+				methods:{
+					creatStudent(){
+						if(this.newStudent.name === ''){
+							alert('姓名不能为空');
+							return;
+						};
+						
+						if(this.newStudent.age <= 0){
+							alert('请输入正确的年龄');
+							return;
+						};
+						
+						this.persons.unshift(this.newStudent);
+					    this.newStudent = {name:'',age:0 ,sex:'男',phone:''};
+					},
+					
+					deleteStudent(index){
+						this.persons.splice(index,1)
+					}
+				}
+			})
+		</script>
+	</body>
+
+</html>
